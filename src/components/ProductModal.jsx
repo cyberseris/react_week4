@@ -94,8 +94,7 @@ function ProductModal({modalMode, tempProduct, isOpen, setIsOpen, getProducts}){
         getProducts();
         handleCloseProductModal();
         } catch (error) {
-        alert("新增失敗");
-        handleCloseProductModal();
+            alert(error.response.data.message);
         }
     };
 
@@ -114,8 +113,7 @@ function ProductModal({modalMode, tempProduct, isOpen, setIsOpen, getProducts}){
         getProducts();
         handleCloseProductModal();
         } catch (error) {
-        alert("更新失敗");
-        handleCloseProductModal();
+            alert(error.response.data.message);
         }
     };
 
@@ -132,7 +130,7 @@ function ProductModal({modalMode, tempProduct, isOpen, setIsOpen, getProducts}){
             imageUrl:resFile.data.imageUrl
         }) 
         }catch(error){
-        console.log(error)
+            console.log("Error: ", error)
         }
     }
 
@@ -309,6 +307,7 @@ function ProductModal({modalMode, tempProduct, isOpen, setIsOpen, getProducts}){
                             name="origin_price"
                             id="origin_price"
                             type="number"
+                            min="1"
                             className="form-control"
                             placeholder="請輸入原價"
                         />
@@ -323,6 +322,7 @@ function ProductModal({modalMode, tempProduct, isOpen, setIsOpen, getProducts}){
                             name="price"
                             id="price"
                             type="number"
+                            min="1"
                             className="form-control"
                             placeholder="請輸入售價"
                         />

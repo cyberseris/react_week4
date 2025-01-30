@@ -18,14 +18,13 @@ function LoginPage({setIsAuth}){
         })
     };
 
-        const checkUserLogin = useCallback(async () => {
-        try {
-          await axios.post(`${BASE_URL}/v2/api/user/check`);
-          setIsAuth(true);
-        } catch (error) {
-        //alert("使用者未登入");
+    const checkUserLogin = useCallback(async () => {
+      try {
+        await axios.post(`${BASE_URL}/v2/api/user/check`);
+        setIsAuth(true);
+      } catch (error) {
         console.log("使用者未登入")
-        }
+      }
     },[setIsAuth])
 
     useEffect(() => {
@@ -42,21 +41,18 @@ function LoginPage({setIsAuth}){
         try {
         const resLogin = await axios.post(`${BASE_URL}/v2/admin/signin`, account);
         const { token, expired } = resLogin.data;
-        console.log("resLogin.data: ", resLogin.data)
-
+        
         document.cookie = `hexToken=${token}; expires=${new Date(expired)}`;
-/*         axios.defaults.headers.common['Authorization'] = token;
-        //getProducts(); */
         setIsAuth(true);
 
         } catch (error) {
-        alert("登入失敗: ", error);
+          alert(error.response.data.message)
         }
     };
 
     return (<div className="d-flex flex-column justify-content-center align-items-center vh-100">
         <h1 className="mb-5">請先登入</h1>
-        <form className="d-flex flex-column gap-3">
+        <form onSubmit={handleLogin} className="d-flex flex-column gap-3">
           <div className="form-floating mb-3">
             <input type="email" onChange={handleInputChange} name="username" className="form-control" id="username" value={account.username} placeholder="name@example.com" />
             <label htmlFor="username">Email address</label>
@@ -65,7 +61,7 @@ function LoginPage({setIsAuth}){
             <input type="password" onChange={handleInputChange} value={account.password} name="password" className="form-control" id="password" placeholder="Password" />
             <label htmlFor="password">Password</label>
           </div>
-          <button type="button" onClick={handleLogin} className="btn btn-primary">登入</button>
+          <button type="submit" className="btn btn-primary">登入</button>
         </form>
         <p className="mt-5 mb-3 text-muted">&copy; 2024~∞ - 六角學院</p>
       </div>        
